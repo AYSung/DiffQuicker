@@ -38,7 +38,6 @@ const mode = ref('peripheral blood')
 const showPercent = ref(false)
 const targetCount = ref(200)
 
-
 function clickAudio() {
   new Audio('./src/assets/click.mp3').play()
 }
@@ -67,11 +66,16 @@ function decrement(cell_type) {
 
 function resetCount() {
   for (let key in counter) { counter[key] = 0 }
+  resetTargetCount()
+}
+
+function resetTargetCount() {
+  targetCount.value = (mode.value == 'peripheral blood') ? 200 : 300
 }
 
 function toggleMode() {
   mode.value = (mode.value == 'peripheral blood') ? 'bone marrow' : 'peripheral blood'
-  targetCount.value = (mode.value == 'peripheral blood') ? 200 : 300
+  resetTargetCount()
 }
 
 function togglePercent() {
@@ -99,29 +103,25 @@ addEventListener("keydown", (event) => {
     <div>
       <h1>DiffQuicker</h1>
       <TotalCount :count="totalCount" :targetCount="targetCount" />
-      <label>adjust target cell count </label>
-      <button class="minus" @click="addTargetCount(-100)" :disabled="targetCount <= 100">-</button>
-      <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
-      <!-- <progress :value="totalCount" :max="targetCount" style="accent-color: hsla(160, 100%, 37%, 1);"></progress> -->
-    </div>
-    <div style="display: flex; gap: 1em; margin-bottom: 1rem;">
-      <h3>mode: {{ mode }}</h3>
-      <button @click="toggleMode">switch mode</button>
     </div>
   </header>
   <main>
-    <div style="display: flex; justify-content: end; gap: 1rem; margin-bottom: 2em;">
-      <button class="reset-count" @click="resetCount">reset count</button>
+    <div class="button-controls">
+      <button class="mode" @click="toggleMode">mode: {{ mode }}</button>
+      <div>
+        <button class="minus" @click="addTargetCount(-100)" :disabled="targetCount <= 100">-</button>
+        <button class="target-count">cells</button>
+        <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
+      </div>
       <button class="show-percent" @click="togglePercent">{{ showPercent ? 'hide percent' : 'show percent' }}</button>
+      <button class="reset-count" @click="resetCount">reset</button>
     </div>
     <div class="count_grid">
       <CellCount v-for="[cell_type, count] in Object.entries(counter)" :label="cell_type + 's'" :count="count"
         :total="totalCount" :showPercent="showPercent" />
     </div>
+    <Report v-if="totalCount >= targetCount" :mode="mode" :cellsCounted="totalCount" :counter="counter" />
   </main>
-  <div>
-    <Report :mode="mode" :cellsCounted="totalCount" :counter="counter" />
-  </div>
   <footer>made by Andrew Y. Sung (last updated August 2025)</footer>
 </template>
 
@@ -130,6 +130,7 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 1rem;
 }
 
 h1 {
@@ -139,50 +140,61 @@ h1 {
 button.minus {
   border-top-right-radius: 0rem;
   border-bottom-right-radius: 0rem;
-  border-right-width: 2px;
-  margin-right: 0.05rem;
-  padding: 0.2rem;
+  width: 2rem;
+  padding-left: 0.9rem;
 }
 
 button.plus {
   border-top-left-radius: 0rem;
   border-bottom-left-radius: 0rem;
-  margin-left: 0.05rem;
-  padding: 0.2rem;
+  width: 2rem;
+  padding-left: 0.7rem;
+}
+
+button.target-count {
+  background-color: hsla(160, 100%, 37%, 1);
+  color: black;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 0;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
 }
 
 button.show-percent {
   width: 140px;
 }
 
+button.mode {
+  width: 220px;
+}
+
 button.reset-count {
   background-color: rgb(196, 178, 20);
 }
 
-footer {
-  position: absolute;
-  bottom: 10px;
+div.button-controls {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  width: 700px;
+}
+
+div.button-controls>*:nth-child(3) {
+  margin-right: auto;
 }
 
 .count_grid {
   line-height: 1.5;
   display: grid;
   grid-template-columns: repeat(4, 175px);
-  margin: 0.5rem 0rem;
-  /* flex-wrap: wrap; */
-  /* justify-content: end; */
-  /* column-gap: 2em; */
-  /* width: 840px; */
+  margin-bottom: 2rem;
 }
 
-/* @media (min-width: 1024px) {
-  header h1 {
-    font-size: 3rem;
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-
-} */
+footer {
+  margin-top: auto;
+  padding-top: 4rem;
+  text-align: center;
+}
 </style>

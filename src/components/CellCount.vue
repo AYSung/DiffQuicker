@@ -22,9 +22,9 @@ defineProps({
 <template>
   <div class="count">
     <h3>{{ label }}</h3>
-    <div style="display: flex; align-items: center; gap: 0.6em;">
-        <h1 class="green">{{ count }} </h1>
-        <h3 v-if="showPercent">({{ total > 0 ? Math.round(count / total * 100) : 0 }}%)</h3>
+    <div style="display: flex; align-items: center; gap: 0.6rem;">
+      <h1 class="green">{{ count }} </h1>
+      <h3 v-if="showPercent">({{ total > 0 ? Math.round(count / total * 100) : 0 }}%)</h3>
     </div>
   </div>
 </template>
@@ -41,19 +41,8 @@ h3 {
   font-size: 1.2rem;
 }
 
-.greetings h1,
-.greetings h3 {
-  text-align: center;
-}
-
 .count {
-    border-left: 1px solid lightgrey;
-    padding-left: 1em;
-    width: 20%;
-}
-
-.greetings h1,
-.count h3 {
-text-align: left;
+  border-left: 1px solid lightgrey;
+  padding-left: 1rem;
 }
 </style>

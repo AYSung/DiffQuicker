@@ -84,7 +84,7 @@ ${requiredCounts('Plasma Cells')}${optionalCounts('Others')}${MERatio()}`
     <div style="display: grid; grid-template-columns: auto auto;">
         <div v-if="mode == 'peripheral blood'">
             <div class="wbc-count">
-                <label for="wbcCount">WBC count: </label>
+                <label for="wbcCount">WBCs: </label>
                 <input id="wbcCount" type="number" min="0" step="0.1" v-model="wbcCount" style="width: 4rem"></input>
                 <label for="wbcCount">x10<sup>9</sup>/L</label>
             </div>
@@ -143,7 +143,7 @@ button.copied {
     white-space: pre-line;
     resize: none;
     height: 30rem;
-    width: 27rem;
+    width: 29rem;
     background-color: transparent;
     border-color: hsla(160, 100%, 37%, 1);
     border-radius: 1rem;

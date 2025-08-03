@@ -24,14 +24,11 @@ function copyReport() {
 }
 
 function absoluteCounts() {
-    if (!wbcCount.value) { return '' }
-    else {
-        return `
+    return wbcCount.value ? `
 Abs. neutrophil count ${(wbcCount.value * props.counter.neutrophil / props.cellsCounted).toFixed(1)} x10^9/L [ref: 1.5-7.4 x10^9/L]
 Abs. lymphocyte count ${(wbcCount.value * props.counter.lymphocyte / props.cellsCounted).toFixed(1)} x10^9/L [ref: 1.1-3.9 x10^9/L]
 Abs. monocyte count ${(wbcCount.value * props.counter.monocyte / props.cellsCounted).toFixed(1)} x10^9/L [ref: 0.1-0.9 x10^9/L]
-Abs. eosinophil count ${(wbcCount.value * props.counter.eosinophil / props.cellsCounted).toFixed(1)} x10^9/L [ref: 0.0-0.7 x10^9/L]`
-    }
+Abs. eosinophil count ${(wbcCount.value * props.counter.eosinophil / props.cellsCounted).toFixed(1)} x10^9/L [ref: 0.0-0.7 x10^9/L]` : ''
 }
 
 function optionalCounts(label) {
@@ -55,13 +52,12 @@ function MERatio() {
 function generateReport() {
     if (props.cellsCounted == 0) { report.value = 'No cell counts to report' }
     else if (props.mode == 'peripheral blood') {
-        report.value = `Peripheral Blood Differential (${props.cellsCounted} cells) ${optionalCounts('Blasts')} ${optionalCounts('Promyelocytes')} ${optionalCounts('Myelocytes')} ${optionalCounts('Metamyelocytes')}
+        report.value = `Peripheral Blood Differential (${props.cellsCounted} cells)${optionalCounts('Blasts')}${optionalCounts('Promyelocytes')}${optionalCounts('Myelocytes')}${optionalCounts('Metamyelocytes')}
 ${requiredCounts('Neutrophils')}
-${requiredCounts('Eosinophils')} ${optionalCounts('Basophils')}
+${requiredCounts('Eosinophils')}${optionalCounts('Basophils')}
 ${requiredCounts('Monocytes')}
-${requiredCounts('Lymphocytes')} ${optionalCounts('Plasma Cells')} ${optionalCounts('Others')} ${nRBCCounts()}
-${absoluteCounts()} 
-        `
+${requiredCounts('Lymphocytes')}${optionalCounts('Plasma Cells')}${optionalCounts('Others')}${nRBCCounts()}
+${absoluteCounts()}`
     } else if (props.mode == 'bone marrow') {
         report.value = `Bone Marrow Differential (${props.cellsCounted} cells)
         ${requiredCounts('Blasts')}
@@ -73,8 +69,7 @@ ${absoluteCounts()}
         ${requiredCounts('Basophils')}
         ${requiredCounts('Monocytes')}
         ${requiredCounts('Lymphocytes')}
-        ${requiredCounts('Plasma Cells')} ${optionalCounts('Others')} ${MERatio()}
-        `
+        ${requiredCounts('Plasma Cells')}${optionalCounts('Others')}${MERatio()}`
     }
 }
 </script>

@@ -83,7 +83,8 @@ function addTargetCount(inc) {
 }
 
 const totalCount = computed(() => {
-  return Object.values(counter).reduce((a, b) => a + b, 0);
+  let sum = Object.values(counter).reduce((a, b) => a + b, 0)
+  return (mode.value == 'peripheral blood') ? sum - counter.erythroid : sum
 })
 
 addEventListener("keydown", (event) => {
@@ -98,6 +99,7 @@ addEventListener("keydown", (event) => {
     <div>
       <h1>DiffQuicker</h1>
       <TotalCount :count="totalCount" :targetCount="targetCount" />
+      <label>adjust target cell count </label>
       <button class="minus" @click="addTargetCount(-100)" :disabled="targetCount <= 100">-</button>
       <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       <!-- <progress :value="totalCount" :max="targetCount" style="accent-color: hsla(160, 100%, 37%, 1);"></progress> -->
@@ -105,15 +107,17 @@ addEventListener("keydown", (event) => {
     <div style="display: flex; gap: 1em; margin-bottom: 1rem;">
       <h3>mode: {{ mode }}</h3>
       <button @click="toggleMode">switch mode</button>
-      <button class="reset-count" @click="resetCount">reset count</button>
     </div>
   </header>
   <main>
+    <div style="display: flex; justify-content: end; gap: 1rem; margin-bottom: 2em;">
+      <button class="reset-count" @click="resetCount">reset count</button>
+      <button class="show-percent" @click="togglePercent">{{ showPercent ? 'hide percent' : 'show percent' }}</button>
+    </div>
     <div class="count_grid">
       <CellCount v-for="[cell_type, count] in Object.entries(counter)" :label="cell_type + 's'" :count="count"
         :total="totalCount" :showPercent="showPercent" />
     </div>
-    <button class="show-percent" @click="togglePercent">{{ showPercent ? 'hide percent' : 'show percent' }}</button>
   </main>
   <div>
     <Report :mode="mode" :cellsCounted="totalCount" :counter="counter" />
@@ -160,12 +164,11 @@ footer {
   bottom: 10px;
 }
 
-
 .count_grid {
   line-height: 1.5;
   display: grid;
   grid-template-columns: repeat(4, 175px);
-  margin: 0.5em 0em;
+  margin: 0.5rem 0rem;
   /* flex-wrap: wrap; */
   /* justify-content: end; */
   /* column-gap: 2em; */

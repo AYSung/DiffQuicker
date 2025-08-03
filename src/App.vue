@@ -109,7 +109,7 @@ addEventListener("keydown", (event) => {
     <div class="button-controls">
       <button class="mode" @click="toggleMode">mode: {{ mode }}</button>
       <div>
-        <button class="minus" @click="addTargetCount(-100)" :disabled="targetCount <= 100">-</button>
+        <button class="minus" @click="addTargetCount(-100)" :disabled="(targetCount <= 100) || (totalCount > (targetCount - 100))">-</button>
         <button class="target-count">cells</button>
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>

@@ -3,6 +3,7 @@ import { reactive, computed, ref } from 'vue';
 import CellCount from './components/CellCount.vue';
 import TotalCount from './components/TotalCount.vue';
 import Report from './components/Report.vue';
+import AboutModal from './components/AboutModal.vue';
 
 
 const KEYMAP = {
@@ -103,6 +104,7 @@ addEventListener("keydown", (event) => {
     <div>
       <h1>DiffQuicker</h1>
       <TotalCount :count="totalCount" :targetCount="targetCount" />
+      <AboutModal />
     </div>
   </header>
   <main>
@@ -123,11 +125,12 @@ addEventListener("keydown", (event) => {
     </div>
     <Report v-if="totalCount >= targetCount" :mode="mode" :cellsCounted="totalCount" :counter="counter" />
   </main>
-  <footer>made by Andrew Y. Sung (last updated August 2025)</footer>
+  <footer>by Andrew Y. Sung (last updated August 2025)</footer>
 </template>
 
 <style scoped>
 header {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

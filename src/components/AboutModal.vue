@@ -52,7 +52,7 @@ const open = ref(false)
                 <h3>Bone Marrow Mode</h3>
                 <p>In bone marrow mode, erythroid precursors ARE counted towards the total cells counted and the target cell
                     count is defaulted to 300 cells. All cell types are reported regardless of their counts. The M:E ratio
-                    is calculated as the sum of granulocytes (not including blasts or monocytes) divided by the sum of
+                    is calculated as the sum of granulocytes (including monocytes and excluding blasts) divided by the sum of
                     erythroid precursors.</p>
     
                 <h2>Report Assistant</h2>

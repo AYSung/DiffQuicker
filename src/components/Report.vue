@@ -52,7 +52,7 @@ function requiredCounts(label) {
 }
 
 function MERatio() {
-    return props.counter.erythroid ? `\nM:E Ratio: ${((props.counter.promyelocyte + props.counter.myelocyte + props.counter.metamyelocyte + props.counter.neutrophil + props.counter.eosinophil + props.counter.basophil) / props.counter.erythroid).toFixed(1)}` : ''
+    return props.counter.erythroid ? `\nM:E Ratio: ${((props.counter.promyelocyte + props.counter.myelocyte + props.counter.metamyelocyte + props.counter.neutrophil + props.counter.eosinophil + props.counter.basophil + props.counter.monocyte) / props.counter.erythroid).toFixed(1)}` : ''
 }
 
 const report = computed(() => {
@@ -75,7 +75,8 @@ ${requiredCounts('Eosinophils')}
 ${requiredCounts('Basophils')}
 ${requiredCounts('Monocytes')}
 ${requiredCounts('Lymphocytes')}
-${requiredCounts('Plasma Cells')}${optionalCounts('Others')}${MERatio()}`
+${requiredCounts('Plasma Cells')}
+${requiredCounts('Erythroids')}${optionalCounts('Others')}${MERatio()}`
     }
 })
 </script>

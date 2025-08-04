@@ -100,8 +100,8 @@ table td {
     z-index: 999;
     top: 8%;
     left: 50%;
-    width: 650px;
-    margin-left: -325px;
+    width: 680px;
+    margin-left: -340px;
     display: flex;
     flex-direction: column;
 }

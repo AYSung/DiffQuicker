@@ -39,11 +39,11 @@ const showPercent = ref(false)
 const targetCount = ref(200)
 
 function clickAudio() {
-  new Audio('./public/click.mp3').play()
+  new Audio('./click.mp3').play()
 }
 
 function blipAudio() {
-  new Audio('./public/blip.mp3').play()
+  new Audio('./blip.mp3').play()
 }
 
 function increment(cell_type) {

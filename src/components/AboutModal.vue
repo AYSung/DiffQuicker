@@ -12,9 +12,10 @@ const open = ref(false)
             <div class="about-text">
                 <h2>About</h2>
                 <p>DiffQuicker is a peripheral blood/bone marrow aspirate diff counter and report assistant.</p>
-    
+
                 <h2>Controls</h2>
-                <p>Pressing the following keys to add one to the corresponding cell type count. Holding shift while pressing
+                <p>Pressing the following keys to add one to the corresponding cell type count. Holding shift while
+                    pressing
                     a key will instead subtract one from the count.</p>
                 <table>
                     <tbody>
@@ -38,26 +39,37 @@ const open = ref(false)
                         </tr>
                     </tbody>
                 </table>
-                <p>The buttons above the grid of cell counts can be used to toggle the counting mode, the number of cells to
-                    count before generating the report, and whether to display a percentage for each cell type. Click the
+                <p>The buttons above the grid of cell counts can be used to toggle the counting mode, the number of
+                    cells to
+                    count before generating the report, and whether to display a percentage for each cell type. When
+                    adjusting the target cell count, if the current cell count will exceed the resulting target count
+                    the minus button will turn yellow. Clicking it will result in the most recent counts will be
+                    discarded until the target count is reached. Click the
                     reset button to reset all counts to zero.</p>
-    
+
                 <h2>Counting Modes</h2>
                 <h3> Peripheral Blood Mode </h3>
-                <p>In peripheral blood mode, erythroid precursors are NOT counted towards the total cells counted and the
+                <p>In peripheral blood mode, erythroid precursors are NOT counted towards the total cells counted and
+                    the
                     target cell count is defaulted to 200 cells. Erythroid precursors will be reported as "nRBCs / 100
                     WBCs", if present. Only neutrophils, lymphocytes, monocytes, eosinophils, and non-zero cell
-                    counts will be included in the report. If a WBC count is entered, the absolute counts of neutrophils,
+                    counts will be included in the report. If a WBC count is entered, the absolute counts of
+                    neutrophils,
                     lymphocytes, monocytes, and eosinophils are also included.</p>
                 <h3>Bone Marrow Mode</h3>
-                <p>In bone marrow mode, erythroid precursors ARE counted towards the total cells counted and the target cell
-                    count is defaulted to 300 cells. All cell types are reported regardless of their counts. The M:E ratio
-                    is calculated as the sum of granulocytes (including monocytes and excluding blasts) divided by the sum of
+                <p>In bone marrow mode, erythroid precursors ARE counted towards the total cells counted and the target
+                    cell
+                    count is defaulted to 300 cells. All cell types are reported regardless of their counts. The M:E
+                    ratio
+                    is calculated as the sum of granulocytes (including monocytes and excluding blasts) divided by the
+                    sum of
                     erythroid precursors.</p>
-    
+
                 <h2>Report Assistant</h2>
-                <p>Once the target count is reached, a report summarizing the differential will be automatically generated.
-                    The report can be copied to the clipboard by clicking the "copy" button in the upper right corner of the
+                <p>Once the target count is reached, a report summarizing the differential will be automatically
+                    generated.
+                    The report can be copied to the clipboard by clicking the "copy" button in the upper right corner of
+                    the
                     report.</p>
             </div>
             <button class="close" @click="open = false">close</button>
@@ -79,6 +91,7 @@ table td {
     padding-left: 0.5rem;
     font-weight: bold;
 }
+
 table {
     margin: 1rem 0rem;
 }

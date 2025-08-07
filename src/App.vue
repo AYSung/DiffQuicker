@@ -35,21 +35,28 @@ const counter = reactive({
   'plasma cell': 0,
   'eosinophil': 0,
 })
+const count_history = reactive([])
+
 const mode = ref('peripheral blood')
 const showPercent = ref(false)
 const targetCount = ref(200)
 
 function clickAudio() {
-  new Audio('./click.mp3').play()
+  const audio = new Audio('./click.mp3')
+  audio.volume = 0.2
+  audio.play()
 }
 
 function blipAudio() {
-  new Audio('./blip.mp3').play()
+  const audio = new Audio('./blip.mp3')
+  audio.volume = 0.4
+  audio.play()
 }
 
 function increment(cell_type) {
   if (totalCount.value < targetCount.value) {
     counter[cell_type]++
+    count_history.push(cell_type)
     clickAudio()
   }
 
@@ -61,12 +68,14 @@ function increment(cell_type) {
 function decrement(cell_type) {
   if (counter[cell_type] > 0) {
     counter[cell_type]--
+    count_history.splice(count_history.lastIndexOf(cell_type), 1)
     clickAudio()
   }
 }
 
 function resetCount() {
   for (let key in counter) { counter[key] = 0 }
+  count_history.length = 0
   resetTargetCount()
 }
 
@@ -85,11 +94,23 @@ function togglePercent() {
 
 function addTargetCount(inc) {
   targetCount.value += inc
+  if (targetCount.value < totalCount.value) {
+    roundCount(targetCount)
+  }
+}
+
+function roundCount(targetCount) {
+  while (totalCount.value > targetCount.value) {
+    counter[count_history.pop()]--
+  }
 }
 
 const totalCount = computed(() => {
-  let sum = Object.values(counter).reduce((a, b) => a + b, 0)
-  return (mode.value == 'peripheral blood') ? sum - counter.erythroid : sum
+  return (mode.value == 'peripheral blood') ? count_history.filter((x) => x != 'erythroid').length : count_history.length
+})
+
+const roundDown = computed(() => {
+  return ((totalCount.value > targetCount.value - 100) && targetCount.value > 100) ? "minus round-down" : "minus"
 })
 
 addEventListener("keydown", (event) => {
@@ -111,8 +132,7 @@ addEventListener("keydown", (event) => {
     <div class="button-controls">
       <button class="mode" @click="toggleMode">mode: {{ mode }}</button>
       <div>
-        <button class="minus" @click="addTargetCount(-100)"
-          :disabled="(targetCount <= 100) || (totalCount > (targetCount - 100))">-</button>
+        <button :class="roundDown" @click="addTargetCount(-100)" :disabled="targetCount <= 100">-</button>
         <button class="target-count">cells</button>
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>
@@ -153,6 +173,10 @@ button.plus {
   border-bottom-left-radius: 0rem;
   width: 2rem;
   padding-left: 0.7rem;
+}
+
+button.round-down {
+  background-color: rgb(196, 178, 20);
 }
 
 button.target-count {

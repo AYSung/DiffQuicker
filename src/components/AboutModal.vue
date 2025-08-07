@@ -40,12 +40,11 @@ const open = ref(false)
                     </tbody>
                 </table>
                 <p>The buttons above the grid of cell counts can be used to toggle the counting mode, the number of
-                    cells to
-                    count before generating the report, and whether to display a percentage for each cell type. When
-                    adjusting the target cell count, if the current cell count will exceed the resulting target count
-                    the minus button will turn yellow. Clicking it will result in the most recent counts will be
-                    discarded until the target count is reached. Click the
-                    reset button to reset all counts to zero.</p>
+                    cells to count before generating the report, whether to display a percentage for each cell type, and
+                    whether to show the report before reaching the target count. When adjusting the target cell count,
+                    if the current cell count will exceed the resulting target count the minus button will turn yellow.
+                    Clicking it will discard the most recent counts until the target count is reached. Click the reset
+                    button to reset all counts to zero.</p>
 
                 <h2>Counting Modes</h2>
                 <h3> Peripheral Blood Mode </h3>

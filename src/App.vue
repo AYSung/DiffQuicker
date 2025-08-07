@@ -39,6 +39,7 @@ const count_history = reactive([])
 
 const mode = ref('peripheral blood')
 const showPercent = ref(false)
+const showReport = ref(false)
 const targetCount = ref(200)
 
 function clickAudio() {
@@ -88,10 +89,6 @@ function toggleMode() {
   resetTargetCount()
 }
 
-function togglePercent() {
-  showPercent.value = !showPercent.value
-}
-
 function addTargetCount(inc) {
   targetCount.value += inc
   if (targetCount.value < totalCount.value) {
@@ -110,7 +107,7 @@ const totalCount = computed(() => {
 })
 
 const roundDown = computed(() => {
-  return ((totalCount.value > targetCount.value - 100) && targetCount.value > 100) ? "minus round-down" : "minus"
+  return ((targetCount.value > 100) && (totalCount.value > targetCount.value - 100)) ? "minus round-down" : "minus"
 })
 
 addEventListener("keydown", (event) => {
@@ -130,20 +127,24 @@ addEventListener("keydown", (event) => {
   </header>
   <main>
     <div class="button-controls">
-      <button class="mode" @click="toggleMode">mode: {{ mode }}</button>
+      <button class="mode" @click="toggleMode">mode: {{ mode == 'peripheral blood' ? 'PB' : 'BM' }}</button>
       <div>
         <button :class="roundDown" @click="addTargetCount(-100)" :disabled="targetCount <= 100">-</button>
         <button class="target-count">cells</button>
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>
-      <button class="show-percent" @click="togglePercent">{{ showPercent ? 'hide percent' : 'show percent' }}</button>
+      <button class="show-percent" @click="showPercent = !showPercent">{{ showPercent ? 'hide' : 'show'
+      }} %</button>
+      <button v-if="totalCount < targetCount" @click="showReport = !showReport">{{ showReport ? 'hide' : 'show' }}
+        report</button>
       <button class="reset-count" @click="resetCount">reset</button>
     </div>
-    <div class="count_grid">
+    <div class="count-grid">
       <CellCount v-for="[cell_type, count] in Object.entries(counter)" :label="cell_type + 's'" :count="count"
         :total="totalCount" :showPercent="showPercent" />
     </div>
-    <Report v-if="totalCount >= targetCount" :mode="mode" :cellsCounted="totalCount" :counter="counter" />
+    <Report v-if="showReport || (totalCount >= targetCount)" :mode="mode" :cellsCounted="totalCount"
+      :counter="counter" />
   </main>
   <footer>by Andrew Y. Sung (last updated August 2025)</footer>
 </template>
@@ -190,11 +191,11 @@ button.target-count {
 }
 
 button.show-percent {
-  width: 140px;
+  width: 100px;
 }
 
 button.mode {
-  width: 220px;
+  width: 120px;
 }
 
 button.reset-count {
@@ -209,11 +210,11 @@ div.button-controls {
   width: 700px;
 }
 
-div.button-controls>*:nth-child(3) {
-  margin-right: auto;
+div.button-controls>*:last-child {
+  margin-left: auto;
 }
 
-.count_grid {
+.count-grid {
   line-height: 1.5;
   display: grid;
   grid-template-columns: repeat(4, 175px);

@@ -43,15 +43,11 @@ const showReport = ref(false)
 const targetCount = ref(200)
 
 function clickAudio() {
-  const audio = new Audio('./click.mp3')
-  audio.volume = 0.2
-  audio.play()
+  new Audio('./click.mp3').play()
 }
 
 function blipAudio() {
-  const audio = new Audio('./blip.mp3')
-  audio.volume = 0.4
-  audio.play()
+  new Audio('./blip.mp3').play()
 }
 
 function increment(cell_type) {
@@ -87,6 +83,9 @@ function resetTargetCount() {
 function toggleMode() {
   mode.value = (mode.value == 'peripheral blood') ? 'bone marrow' : 'peripheral blood'
   resetTargetCount()
+  if (targetCount.value < totalCount.value) {
+    targetCount.value = Math.ceil(totalCount.value / 100) * 100
+  }
 }
 
 function addTargetCount(inc) {
@@ -129,7 +128,7 @@ addEventListener("keydown", (event) => {
     <div class="button-controls">
       <button class="mode" @click="toggleMode">mode: {{ mode == 'peripheral blood' ? 'PB' : 'BM' }}</button>
       <div>
-        <button :class="roundDown" @click="addTargetCount(-100)" :disabled="targetCount <= 100">-</button>
+        <button :class="roundDown" @click="addTargetCount(-100)" :disabled="targetCount <= 100">&#x2212</button>
         <button class="target-count">cells</button>
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>
@@ -166,14 +165,14 @@ button.minus {
   border-top-right-radius: 0rem;
   border-bottom-right-radius: 0rem;
   width: 2rem;
-  padding-left: 0.9rem;
+  padding-left: 0.8rem;
 }
 
 button.plus {
   border-top-left-radius: 0rem;
   border-bottom-left-radius: 0rem;
   width: 2rem;
-  padding-left: 0.7rem;
+  padding-left: 0.6rem;
 }
 
 button.round-down {

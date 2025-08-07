@@ -149,7 +149,6 @@ button.copied {
     border-color: hsla(160, 100%, 37%, 1);
     border-radius: 1rem;
     padding: 0.5rem 1rem;
-    color: rgba(235, 235, 235, 0.64);
     line-height: 1.6;
     font-family:
         Inter,

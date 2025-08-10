@@ -176,7 +176,7 @@ button.plus {
 }
 
 button.round-down {
-  background-color: rgb(196, 178, 20);
+  background-color: rgb(241, 221, 37);
 }
 
 button.target-count {
@@ -198,7 +198,7 @@ button.mode {
 }
 
 button.reset-count {
-  background-color: rgb(196, 178, 20);
+  background-color: rgb(241, 221, 37);
 }
 
 div.button-controls {

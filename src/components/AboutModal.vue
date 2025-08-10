@@ -15,8 +15,7 @@ const open = ref(false)
 
                 <h2>Controls</h2>
                 <p>Pressing the following keys to add one to the corresponding cell type count. Holding shift while
-                    pressing
-                    a key will instead subtract one from the count.</p>
+                    pressing a key will instead subtract one from the count.</p>
                 <table>
                     <tbody>
                         <tr>
@@ -39,13 +38,17 @@ const open = ref(false)
                         </tr>
                     </tbody>
                 </table>
-                <p>The buttons above the grid of cell counts can be used to toggle the counting mode, the number of
-                    cells to count before generating the report, whether to display a percentage for each cell type, and
-                    whether to show the report before reaching the target count. When adjusting the target cell count,
-                    if the current cell count will exceed the resulting target count the minus button will turn yellow.
-                    Clicking it will discard the most recent counts until the target count is reached. Click the reset
-                    button to reset all counts to zero.</p>
-
+                <p>The buttons above the grid of cell counts have the following functions:</p>
+                <ul>
+                    <li>Mode: Toggles between peripheral blood (PB) and bone marrow (BM) diffing modes (see below for
+                        differences)</li>
+                    <li>Cells: Adjusts the target number of cells to count (by increments of 100). The minus button will
+                        turn yellow if reducing the target cell count below the current cell count. In this situation,
+                        the most recent cell counts will be discarded until the target cell count is reached.</li>
+                    <li>Show %: Displays the percentage of each cell type</li>
+                    <li>Show Report: toggles display of the report section before the target count is reached.</li>
+                    <li>Reset: Resets all counts to zero and sets the target cell count back to default.</li>
+                </ul>
                 <h2>Counting Modes</h2>
                 <h3> Peripheral Blood Mode </h3>
                 <p>In peripheral blood mode, erythroid precursors are NOT counted towards the total cells counted and
@@ -105,6 +108,8 @@ table {
 .about-text {
     height: 600px;
     overflow-y: scroll;
+    color: rgba(235, 235, 235, 0.64);
+    padding-right: 0.2rem;
 }
 
 .close {

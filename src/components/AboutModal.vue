@@ -119,10 +119,6 @@ table {
     padding-right: 0.2rem;
 }
 
-.close {
-    align-self: center;
-}
-
 .modal {
     background-color: rgba(44, 62, 80, 0.95);
     border-radius: 1rem;

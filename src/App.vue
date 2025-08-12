@@ -106,7 +106,7 @@ const totalCount = computed(() => {
 })
 
 const roundDown = computed(() => {
-  return ((targetCount.value > 100) && (totalCount.value > targetCount.value - 100)) ? "minus round-down" : "minus"
+  return (targetCount.value > 100) && (totalCount.value > targetCount.value - 100)
 })
 
 addEventListener("keydown", (event) => {
@@ -128,12 +128,13 @@ addEventListener("keydown", (event) => {
     <div class="button-controls">
       <button class="mode" @click="toggleMode">mode: {{ mode == 'peripheral blood' ? 'PB' : 'BM' }}</button>
       <div>
-        <button :class="roundDown" @click="addTargetCount(-100)" :disabled="targetCount <= 100">&#x2212</button>
+        <button class="minus" :class="{ 'round-down': roundDown }" @click="addTargetCount(-100)"
+          :disabled="targetCount <= 100">&#x2212</button>
         <button class="target-count">cells</button>
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>
       <button class="show-percent" @click="showPercent = !showPercent">{{ showPercent ? 'hide' : 'show'
-        }} %</button>
+      }} %</button>
       <button v-if="totalCount < targetCount" @click="showReport = !showReport">{{ showReport ? 'hide' : 'show' }}
         report</button>
       <button class="reset-count" @click="resetCount">reset</button>
@@ -142,7 +143,7 @@ addEventListener("keydown", (event) => {
       <CellCount v-for="[cell_type, count] in Object.entries(counter)" :label="cell_type + 's'" :count="count"
         :total="totalCount" :showPercent="showPercent" />
     </div>
-    <Report v-if="showReport || (totalCount >= targetCount)" :mode="mode" :cellsCounted="totalCount"
+    <Report v-show="showReport || (totalCount >= targetCount)" :mode="mode" :cellsCounted="totalCount"
       :counter="counter" />
   </main>
   <footer>by Andrew Y. Sung (last updated August 2025)</footer>

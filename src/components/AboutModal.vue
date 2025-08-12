@@ -5,7 +5,7 @@ const open = ref(false)
 </script>
 
 <template>
-    <button class="about" @click="open = true">?</button>
+    <button class="about" @click="open = !open">{{ open ? '&#10006' : '?' }}</button>
 
     <Teleport to="body">
         <div v-if="open" class="modal">
@@ -74,7 +74,6 @@ const open = ref(false)
                     the
                     report.</p>
             </div>
-            <button class="close" @click="open = false">close</button>
         </div>
     </Teleport>
 </template>
@@ -103,10 +102,13 @@ table {
     top: 1rem;
     right: 0;
     background-color: hsla(160, 100%, 37%, 1);
+    width: 2.5rem;
+    text-align: center;
+    padding: 0.5rem 0;
 }
 
 .about-text {
-    height: 600px;
+    height: 480px;
     overflow-y: scroll;
     color: rgba(235, 235, 235, 0.64);
     padding-right: 0.2rem;

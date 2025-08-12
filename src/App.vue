@@ -133,7 +133,7 @@ addEventListener("keydown", (event) => {
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>
       <button class="show-percent" @click="showPercent = !showPercent">{{ showPercent ? 'hide' : 'show'
-      }} %</button>
+        }} %</button>
       <button v-if="totalCount < targetCount" @click="showReport = !showReport">{{ showReport ? 'hide' : 'show' }}
         report</button>
       <button class="reset-count" @click="resetCount">reset</button>
@@ -199,6 +199,10 @@ button.mode {
 
 button.reset-count {
   background-color: rgb(241, 221, 37);
+}
+
+button.reset-count:hover {
+  background-color: rgb(255, 243, 132);
 }
 
 div.button-controls {

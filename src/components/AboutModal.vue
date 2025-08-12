@@ -123,7 +123,7 @@ table {
     background-color: rgba(44, 62, 80, 0.95);
     border-radius: 1rem;
     padding: 1rem 1rem 1rem 2rem;
-    position: fixed;
+    position: absolute;
     z-index: 999;
     top: 6.5rem;
     left: 50%;

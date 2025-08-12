@@ -107,8 +107,13 @@ table {
     padding: 0.5rem 0;
 }
 
+.about:hover {
+    background-color: rgb(28, 207, 148);
+}
+
 .about-text {
-    height: 480px;
+    min-height: 500px;
+    max-height: calc(100vh - 14.5rem);
     overflow-y: scroll;
     color: rgba(235, 235, 235, 0.64);
     padding-right: 0.2rem;

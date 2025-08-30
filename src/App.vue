@@ -42,12 +42,23 @@ const showPercent = ref(false)
 const showReport = ref(false)
 const targetCount = ref(200)
 
+var clickSounds = [], click_index = 0
+for (var i = 0; i < 8; i++) {
+  let audio = new Audio('./click.mp3')
+  audio.volume = 0.5
+  clickSounds.push(audio)
+}
+const blipAudioFile = new Audio('./blip.mp3')
+blipAudioFile.volume = 0.5
+
 function clickAudio() {
-  new Audio('./click.mp3').play()
+  if (window.chrome) { clickSounds[click_index].load() }
+  clickSounds[click_index].play()
+  click_index = (click_index + 1) % clickSounds.length
 }
 
 function blipAudio() {
-  new Audio('./blip.mp3').play()
+  blipAudioFile.play()
 }
 
 function increment(cell_type) {
@@ -134,7 +145,7 @@ addEventListener("keydown", (event) => {
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>
       <button class="show-percent" @click="showPercent = !showPercent">{{ showPercent ? 'hide' : 'show'
-      }} %</button>
+        }} %</button>
       <button v-if="totalCount < targetCount" @click="showReport = !showReport">{{ showReport ? 'hide' : 'show' }}
         report</button>
       <button class="reset-count" @click="resetCount">reset</button>

@@ -14,7 +14,7 @@ const open = ref(false)
                 <p>DiffQuicker is a peripheral blood/bone marrow aspirate diff counter and report assistant.</p>
 
                 <h2>Controls</h2>
-                <p>Pressing the following keys to add one to the corresponding cell type count. Holding shift while
+                <p>Press the following keys to add one to the corresponding cell type count. Holding shift while
                     pressing a key will instead subtract one from the count.</p>
                 <table>
                     <tbody>

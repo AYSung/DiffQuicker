@@ -1,10 +1,10 @@
 <script setup>
 import { reactive, computed, ref } from 'vue';
+import { state } from './state';
 import CellCount from './components/CellCount.vue';
 import TotalCount from './components/TotalCount.vue';
 import Report from './components/Report.vue';
 import AboutModal from './components/AboutModal.vue';
-
 
 const KEYMAP = {
   'KeyQ': 'blast',
@@ -20,22 +20,6 @@ const KEYMAP = {
   'KeyC': 'plasma cell',
   'KeyV': 'eosinophil'
 }
-
-const counter = reactive({
-  'blast': 0,
-  'promyelocyte': 0,
-  'myelocyte': 0,
-  'metamyelocyte': 0,
-  'erythroid': 0,
-  'monocyte': 0,
-  'lymphocyte': 0,
-  'neutrophil': 0,
-  'other': 0,
-  'basophil': 0,
-  'plasma cell': 0,
-  'eosinophil': 0,
-})
-const count_history = reactive([])
 
 const mode = ref('peripheral blood')
 const showPercent = ref(false)
@@ -63,8 +47,8 @@ function blipAudio() {
 
 function increment(cell_type) {
   if (totalCount.value < targetCount.value) {
-    counter[cell_type]++
-    count_history.push(cell_type)
+    state.counter[cell_type]++
+    state.count_history.push(cell_type)
     clickAudio()
   }
 
@@ -74,17 +58,17 @@ function increment(cell_type) {
 }
 
 function decrement(cell_type) {
-  if (counter[cell_type] > 0) {
-    counter[cell_type]--
-    count_history.splice(count_history.lastIndexOf(cell_type), 1)
+  if (state.counter[cell_type] > 0) {
+    state.counter[cell_type]--
+    state.count_history.splice(state.count_history.lastIndexOf(cell_type), 1)
     clickAudio()
   }
 }
 
 function resetCount() {
-  for (let key in counter) { counter[key] = 0 }
-  count_history.length = 0
-  resetTargetCount()
+  for (let key in state.counter) { state.counter[key] = 0 }
+  state.count_history.length = 0
+  state.wbcCount = ''
 }
 
 function resetTargetCount() {
@@ -108,12 +92,12 @@ function addTargetCount(inc) {
 
 function roundCount(targetCount) {
   while (totalCount.value > targetCount.value) {
-    counter[count_history.pop()]--
+    state.counter[state.count_history.pop()]--
   }
 }
 
 const totalCount = computed(() => {
-  return (mode.value == 'peripheral blood') ? count_history.filter((x) => x != 'erythroid').length : count_history.length
+  return (mode.value == 'peripheral blood') ? state.count_history.filter((x) => x != 'erythroid').length : state.count_history.length
 })
 
 const roundDown = computed(() => {
@@ -145,19 +129,19 @@ addEventListener("keydown", (event) => {
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>
       <button class="show-percent" @click="showPercent = !showPercent">{{ showPercent ? 'hide' : 'show'
-        }} %</button>
+      }} %</button>
       <button v-if="totalCount < targetCount" @click="showReport = !showReport">{{ showReport ? 'hide' : 'show' }}
         report</button>
       <button class="reset-count" @click="resetCount">reset</button>
     </div>
     <div class="count-grid">
-      <CellCount v-for="[cell_type, count] in Object.entries(counter)" :label="cell_type + 's'" :count="count"
+      <CellCount v-for="[cell_type, count] in Object.entries(state.counter)" :label="cell_type + 's'" :count="count"
         :total="totalCount" :showPercent="showPercent" />
     </div>
     <Report v-show="showReport || (totalCount >= targetCount)" :mode="mode" :cellsCounted="totalCount"
-      :counter="counter" />
+      :counter="state.counter" />
   </main>
-  <footer>by Andrew Y. Sung (last updated August 2025)</footer>
+  <footer>by Andrew Y. Sung (last updated February 2026)</footer>
 </template>
 
 <style scoped>

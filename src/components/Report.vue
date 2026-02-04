@@ -1,11 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { state } from '@/state';
 
 const props = defineProps({
-    counter: {
-        type: Object,
-        required: true
-    },
     cellsCounted: {
         type: Number,
         required: true,
@@ -16,7 +13,6 @@ const props = defineProps({
     },
 })
 
-const wbcCount = ref('')
 
 const copyButtonText = ref('copy')
 
@@ -31,28 +27,28 @@ function copyReport() {
 }
 
 function absoluteCounts() {
-    return wbcCount.value ? `Abs. neutrophil count ${(wbcCount.value * props.counter.neutrophil / props.cellsCounted).toFixed(1)} x10^9/L [ref: 1.5-7.4 x10^9/L]
-Abs. lymphocyte count ${(wbcCount.value * props.counter.lymphocyte / props.cellsCounted).toFixed(1)} x10^9/L [ref: 1.1-3.9 x10^9/L]
-Abs. monocyte count ${(wbcCount.value * props.counter.monocyte / props.cellsCounted).toFixed(1)} x10^9/L [ref: 0.1-0.9 x10^9/L]
-Abs. eosinophil count ${(wbcCount.value * props.counter.eosinophil / props.cellsCounted).toFixed(1)} x10^9/L [ref: 0.0-0.7 x10^9/L]` : ''
+    return state.wbcCount ? `Abs. neutrophil count ${(state.wbcCount * state.counter.neutrophil / props.cellsCounted).toFixed(1)} x10^9/L [ref: 1.5-7.4 x10^9/L]
+Abs. lymphocyte count ${(state.wbcCount * state.counter.lymphocyte / props.cellsCounted).toFixed(1)} x10^9/L [ref: 1.1-3.9 x10^9/L]
+Abs. monocyte count ${(state.wbcCount * state.counter.monocyte / props.cellsCounted).toFixed(1)} x10^9/L [ref: 0.1-0.9 x10^9/L]
+Abs. eosinophil count ${(state.wbcCount * state.counter.eosinophil / props.cellsCounted).toFixed(1)} x10^9/L [ref: 0.0-0.7 x10^9/L]` : ''
 }
 
 function optionalCounts(label) {
     let cellType = label.slice(0, -1).toLowerCase()
-    return props.counter[cellType] ? `\n${label}: ${Math.round(props.counter[cellType] / props.cellsCounted * 100)}%` : ''
+    return state.counter[cellType] ? `\n${label}: ${Math.round(state.counter[cellType] / props.cellsCounted * 100)}%` : ''
 }
 
 function nRBCCounts() {
-    return props.counter.erythroid ? `\nnRBCs: ${Math.round(props.counter.erythroid / (props.cellsCounted / 100))}/100 WBCs` : ''
+    return state.counter.erythroid ? `\nnRBCs: ${Math.round(state.counter.erythroid / (props.cellsCounted / 100))}/100 WBCs` : ''
 }
 
 function requiredCounts(label) {
     let cellType = label.slice(0, -1).toLowerCase()
-    return `${label}: ${Math.round(props.counter[cellType] / props.cellsCounted * 100)}%`
+    return `${label}: ${Math.round(state.counter[cellType] / props.cellsCounted * 100)}%`
 }
 
 function MERatio() {
-    return props.counter.erythroid ? `\nM:E Ratio: ${((props.counter.promyelocyte + props.counter.myelocyte + props.counter.metamyelocyte + props.counter.neutrophil + props.counter.eosinophil + props.counter.basophil + props.counter.monocyte) / props.counter.erythroid).toFixed(1)}` : ''
+    return state.counter.erythroid ? `\nM:E Ratio: ${((state.counter.promyelocyte + state.counter.myelocyte + state.counter.metamyelocyte + state.counter.neutrophil + state.counter.eosinophil + state.counter.basophil + state.counter.monocyte) / state.counter.erythroid).toFixed(1)}` : ''
 }
 
 const report = computed(() => {
@@ -86,7 +82,8 @@ ${requiredCounts('Erythroids')}${optionalCounts('Others')}${MERatio()}`
         <div v-if="mode == 'peripheral blood'">
             <div class="wbc-count">
                 <label for="wbcCount">WBCs: </label>
-                <input id="wbcCount" type="number" min="0" step="0.1" v-model="wbcCount" style="width: 4rem"></input>
+                <input id="wbcCount" type="number" min="0" step="0.1" v-model="state.wbcCount"
+                    style="width: 4rem"></input>
                 <label for="wbcCount">x10<sup>9</sup>/L</label>
             </div>
         </div>

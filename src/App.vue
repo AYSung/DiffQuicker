@@ -69,6 +69,7 @@ function resetCount() {
   for (let key in state.counter) { state.counter[key] = 0 }
   state.count_history.length = 0
   state.wbcCount = ''
+  resetTargetCount()
 }
 
 function resetTargetCount() {

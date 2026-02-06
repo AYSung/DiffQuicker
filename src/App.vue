@@ -5,6 +5,7 @@ import CellCount from './components/CellCount.vue';
 import TotalCount from './components/TotalCount.vue';
 import Report from './components/Report.vue';
 import AboutModal from './components/AboutModal.vue';
+import WBCInput from './components/WBCInput.vue';
 
 const KEYMAP = {
   'KeyQ': 'blast',
@@ -110,6 +111,10 @@ addEventListener("keydown", (event) => {
   else if (!(event.ctrlKey || event.metakey || event.altKey || event.shiftKey) && event.code in KEYMAP) { increment(KEYMAP[event.code]) }
 })
 
+const countReached = computed(() => {
+  return totalCount.value >= targetCount.value
+})
+
 </script>
 
 <template>
@@ -130,7 +135,7 @@ addEventListener("keydown", (event) => {
         <button class="plus" @click="addTargetCount(100)" :disabled="targetCount >= 500">+</button>
       </div>
       <button class="show-percent" @click="showPercent = !showPercent">{{ showPercent ? 'hide' : 'show'
-      }} %</button>
+        }} %</button>
       <button v-if="totalCount < targetCount" @click="showReport = !showReport">{{ showReport ? 'hide' : 'show' }}
         report</button>
       <button class="reset-count" @click="resetCount">reset</button>
@@ -139,8 +144,10 @@ addEventListener("keydown", (event) => {
       <CellCount v-for="[cell_type, count] in Object.entries(state.counter)" :label="cell_type + 's'" :count="count"
         :total="totalCount" :showPercent="showPercent" />
     </div>
-    <Report v-show="showReport || (totalCount >= targetCount)" :mode="mode" :cellsCounted="totalCount"
-      :counter="state.counter" />
+    <div style="display: grid; grid-template-columns: auto auto;">
+      <WBCInput v-if="mode == 'peripheral blood'" v-show="showReport || countReached" />
+      <Report v-show="showReport || countReached" :mode="mode" :cellsCounted="totalCount" :counter="state.counter" />
+    </div>
   </main>
   <footer>by Andrew Y. Sung (last updated February 2026)</footer>
 </template>

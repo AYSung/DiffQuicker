@@ -78,19 +78,9 @@ ${requiredCounts('Erythroids')}${optionalCounts('Others')}${MERatio()}`
 </script>
 
 <template>
-    <div style="display: grid; grid-template-columns: auto auto;">
-        <div v-if="mode == 'peripheral blood'">
-            <div class="wbc-count">
-                <label for="wbcCount">WBCs: </label>
-                <input id="wbcCount" type="number" min="0" step="0.1" v-model="state.wbcCount"
-                    style="width: 4rem"></input>
-                <label for="wbcCount">x10<sup>9</sup>/L</label>
-            </div>
-        </div>
-        <div style="margin-left: auto; position: relative;">
-            <button :class="copyButtonText" v-if="report" @click="copyReport">{{ copyButtonText }}</button>
-            <textarea class="report" disabled=true>{{ report }}</textarea>
-        </div>
+    <div style="margin-left: auto; position: relative;">
+        <button :class="copyButtonText" v-if="report" @click="copyReport">{{ copyButtonText }}</button>
+        <textarea class="report" disabled=true>{{ report }}</textarea>
     </div>
 </template>
 
@@ -112,28 +102,6 @@ button {
 
 button.copied {
     background-color: rgb(64, 75, 71);
-}
-
-.wbc-count {
-    background-color: hsla(160, 100%, 37%, 1);
-    color: black;
-    border-radius: 1.5rem;
-    padding: 0.5rem 1rem;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: baseline;
-}
-
-.wbc-count>* {
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.wbc-count>input {
-    border-radius: 6px;
-    text-align: end;
-    margin: 0.2rem;
 }
 
 .report {
